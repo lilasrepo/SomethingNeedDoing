@@ -1,7 +1,6 @@
 using AutoRetainerAPI;
 using Dalamud.Game.Addon.Lifecycle;
 using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
-using Dalamud.Game.Chat;
 using Dalamud.Game.DutyState;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
@@ -971,17 +970,17 @@ public class MacroScheduler : IMacroScheduler, IDisposable
         _ = _triggerEventManager.RaiseTriggerEvent(TriggerEvent.OnConditionChange, eventData);
     }
 
-    private void OnTerritoryChanged(uint territoryType)
+    private void OnTerritoryChanged(ushort territoryType)
     {
-        var eventData = new Dictionary<string, object> { { "territoryType", territoryType } };
+        var eventData = new Dictionary<string, object> { { "territoryType", (uint)territoryType } };
         FrameworkLogger.Verbose($"[{nameof(OnTerritoryChanged)}] fired [{territoryType}]");
         _ = _triggerEventManager.RaiseTriggerEvent(TriggerEvent.OnTerritoryChange, eventData);
     }
 
-    private void OnChatMessage(IHandleableChatMessage message)
+    private void OnChatMessage(XivChatType type, int timestamp, ref SeString sender, ref SeString message, ref bool isHandled)
     {
-        var eventData = new Dictionary<string, object> { { "type", message.LogKind }, { "timestamp", message.Timestamp }, { "sender", message.Sender.TextValue }, { "message", message.Message.TextValue }, { "isHandled", message.IsHandled } };
-        FrameworkLogger.Verbose($"[{nameof(OnChatMessage)}] fired [{message.LogKind}, {message.Timestamp}, {message.Sender}, {message.Message.TextValue}, {message.IsHandled}]");
+        var eventData = new Dictionary<string, object> { { "type", type }, { "timestamp", timestamp }, { "sender", sender.TextValue }, { "message", message.TextValue }, { "isHandled", isHandled } };
+        FrameworkLogger.Verbose($"[{nameof(OnChatMessage)}] fired [{type}, {timestamp}, {sender}, {message.TextValue}, {isHandled}]");
         _ = _triggerEventManager.RaiseTriggerEvent(TriggerEvent.OnChatMessage, eventData);
     }
 
@@ -998,21 +997,21 @@ public class MacroScheduler : IMacroScheduler, IDisposable
         _ = _triggerEventManager.RaiseTriggerEvent(TriggerEvent.OnLogout, eventData);
     }
 
-    private void OnDutyStarted(IDutyStateEventArgs args)
+    private void OnDutyStarted(object? sender, ushort territoryType)
     {
-        FrameworkLogger.Verbose($"[{nameof(OnDutyStarted)}] fired [{args}]");
+        FrameworkLogger.Verbose($"[{nameof(OnDutyStarted)}] fired [{territoryType}]");
         _ = _triggerEventManager.RaiseTriggerEvent(TriggerEvent.OnDutyStarted);
     }
 
-    private void OnDutyWiped(IDutyStateEventArgs args)
+    private void OnDutyWiped(object? sender, ushort territoryType)
     {
-        FrameworkLogger.Verbose($"[{nameof(OnDutyWiped)}] fired [{args}]");
+        FrameworkLogger.Verbose($"[{nameof(OnDutyWiped)}] fired [{territoryType}]");
         _ = _triggerEventManager.RaiseTriggerEvent(TriggerEvent.OnDutyWiped);
     }
 
-    private void OnDutyCompleted(IDutyStateEventArgs args)
+    private void OnDutyCompleted(object? sender, ushort territoryType)
     {
-        FrameworkLogger.Verbose($"[{nameof(OnDutyCompleted)}] fired [{args}]");
+        FrameworkLogger.Verbose($"[{nameof(OnDutyCompleted)}] fired [{territoryType}]");
         _ = _triggerEventManager.RaiseTriggerEvent(TriggerEvent.OnDutyCompleted);
     }
 
@@ -1026,7 +1025,7 @@ public class MacroScheduler : IMacroScheduler, IDisposable
 
     private void CheckCharacterPostProcess(IMacro macro)
     {
-        if (C.ARCharacterPostProcessExcludedCharacters.Any(x => x == Svc.PlayerState.ContentId))
+        if (C.ARCharacterPostProcessExcludedCharacters.Any(x => x == Svc.ClientState.LocalContentId))
             FrameworkLogger.Info($"Skipping post process macro {macro.Name} for current character.");
         else
             _arApis[macro.Id].RequestCharacterPostprocess();
@@ -1034,14 +1033,14 @@ public class MacroScheduler : IMacroScheduler, IDisposable
 
     private void DoCharacterPostProcess(IMacro macro)
     {
-        if (C.ARCharacterPostProcessExcludedCharacters.Any(x => x == Svc.PlayerState.ContentId))
+        if (C.ARCharacterPostProcessExcludedCharacters.Any(x => x == Svc.ClientState.LocalContentId))
         {
             FrameworkLogger.Info($"Skipping post process macro {macro.Name} for current character.");
             return;
         }
 
         FrameworkLogger.Info($"Executing post process macro {macro.Name} for current character.");
-        var eventData = new Dictionary<string, object> { { "Id", Svc.PlayerState.ContentId }, { "Name", Svc.PlayerState.CharacterName } };
+        var eventData = new Dictionary<string, object> { { "Id", Svc.ClientState.LocalContentId }, { "Name", Svc.ClientState.LocalPlayer?.Name.TextValue ?? string.Empty } };
         _ = _triggerEventManager.RaiseTriggerEvent(TriggerEvent.OnAutoRetainerCharacterPostProcess, eventData);
     }
 

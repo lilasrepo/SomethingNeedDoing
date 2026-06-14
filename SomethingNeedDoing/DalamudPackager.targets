@@ -6,25 +6,13 @@
             OutputPath="$(OutputPath)"
             AssemblyName="$(AssemblyName)"
             MakeZip="false"
-            VersionComponents="2"
-            Author="$(Author)"
-            Name="$(Name)"
-            Punchline="$(Punchline)"
-            Description="$(Description)"
-            RepoUrl="$(RepoUrl)"
-            Tags="$(Tags)" />
+            VersionComponents="2"/>
     </Target>
     <Target Name="PackagePlugin" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
         <DalamudPackager ProjectDir="$(ProjectDir)"
             OutputPath="$(OutputPath)"
             AssemblyName="$(AssemblyName)"
             MakeZip="true"
-            VersionComponents="2"
-            Author="$(Author)"
-            Name="$(Name)"
-            Punchline="$(Punchline)"
-            Description="$(Description)"
-            RepoUrl="$(RepoUrl)"
-            Tags="$(Tags)" />
+            VersionComponents="2"/>
     </Target>
 </Project>

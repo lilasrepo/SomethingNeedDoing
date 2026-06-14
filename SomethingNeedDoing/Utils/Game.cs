@@ -188,7 +188,7 @@ public static unsafe class Game
             {
                 0 => throw new MacroException("Recipe not found"),
                 1 => recipes.First().RowId,
-                _ => recipes.FirstOrDefault(r => r.CraftType.RowId + 8 == Player.ClassJob.RowId).RowId
+                _ => recipes.FirstOrDefault(r => r.CraftType.RowId + 8 == (Svc.ClientState.LocalPlayer?.ClassJob.RowId ?? 0)).RowId
             };
         }
 

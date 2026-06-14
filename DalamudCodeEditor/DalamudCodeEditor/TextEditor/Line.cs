@@ -1,7 +1,7 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text;
-using Dalamud.Bindings.ImGui;
+using ImGuiNET;
 
 namespace DalamudCodeEditor.TextEditor;
 

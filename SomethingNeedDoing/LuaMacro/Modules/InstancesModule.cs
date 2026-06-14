@@ -24,13 +24,13 @@ public unsafe class InstancesModule : LuaModuleBase
         [Changelog("12.69")]
         public void QueueDuty(uint contentsFinderCondition)
         {
-            if (!FindRows<Sheets.ContentFinderCondition>(x => x.Unknown47 && x.IsInDutyFinder).Select(x => x.RowId).Contains(contentsFinderCondition)) // 47 = IsInUse, 48 = ShownInDf (I think)
+            if (!FindRows<Sheets.ContentFinderCondition>(x => x.Unknown47).Select(x => x.RowId).Contains(contentsFinderCondition)) // B1(api12): IsInDutyFinder Lumina column added in 7.5
             {
                 FrameworkLogger.Error($"Invalid cfcID: {contentsFinderCondition}");
                 return;
             }
             var QueueInfo = ContentsFinder.Instance()->GetQueueInfo();
-            if (QueueInfo->QueueState is ContentsFinderQueueState.Pending or ContentsFinderQueueState.Queued) QueueInfo->CancelQueue();
+            // B1(api12): ContentsFinderQueueState enum added in 7.5 ClientStructs — cannot pre-cancel queue here
             QueueInfo->QueueDuties(&contentsFinderCondition, 1);
         }
 
@@ -44,7 +44,7 @@ public unsafe class InstancesModule : LuaModuleBase
                 return;
             }
             var QueueInfo = ContentsFinder.Instance()->GetQueueInfo();
-            if (QueueInfo->QueueState is ContentsFinderQueueState.Pending or ContentsFinderQueueState.Queued) QueueInfo->CancelQueue();
+            // B1(api12): ContentsFinderQueueState enum added in 7.5 ClientStructs
             QueueInfo->QueueRoulette(contentRouletteId);
         }
 
@@ -58,7 +58,7 @@ public unsafe class InstancesModule : LuaModuleBase
         [LuaDocs] public bool IsSilenceEcho { get => ContentsFinder.Instance()->IsSilenceEcho; set => ContentsFinder.Instance()->IsSilenceEcho = value; }
         [LuaDocs] public bool IsExplorerMode { get => ContentsFinder.Instance()->IsExplorerMode; set => ContentsFinder.Instance()->IsExplorerMode = value; }
         [LuaDocs] public bool IsLimitedLevelingRoulette { get => ContentsFinder.Instance()->IsLimitedLevelingRoulette; set => ContentsFinder.Instance()->IsLimitedLevelingRoulette = value; }
-        [LuaDocs] public ContentsFinderQueueState QueueState => ContentsFinder.Instance()->GetQueueInfo()->QueueState;
+        [LuaDocs] public int QueueState => 0; // B1(api12): ContentsFinderQueueState enum + GetQueueInfo()->QueueState added in game 7.5 ClientStructs
     }
 
     [LuaFunction] public FriendsListWrapper FriendsList => new();
@@ -101,9 +101,9 @@ public unsafe class InstancesModule : LuaModuleBase
     {
         [LuaDocs]
         [Changelog("12.8")]
-        public bool IsFlagMarkerSet => AgentMap.Instance()->FlagMarkerCount > 0;
+        public bool IsFlagMarkerSet => false; // B1(api12): AgentMap.FlagMarkerCount added in 7.5
 
-        [LuaDocs][Changelog("12.8")] public FlagWrapper Flag => new(AgentMap.Instance()->FlagMapMarkers[0]);
+        [LuaDocs][Changelog("12.8")] public FlagWrapper Flag => new(default); // B1(api12): AgentMap.FlagMapMarkers added in 7.5
     }
 
     public class FlagWrapper(FlagMapMarker data) : IWrapper

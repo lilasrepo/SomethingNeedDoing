@@ -15,16 +15,17 @@ public unsafe class PlayerModule : LuaModuleBase
     private PlayerState* Ps => Instance();
 
     [LuaFunction] public byte GrandCompany => Ps->GrandCompany;
-    [LuaFunction] public byte GCRankMaelstrom { get => Ps->GCRanks[0]; set => Ps->GCRanks[0] = value; }
-    [LuaFunction] public byte GCRankImmortalFlames { get => Ps->GCRanks[2]; set => Ps->GCRanks[2] = value; }
-    [LuaFunction] public byte GCRankTwinAdders { get => Ps->GCRanks[1]; set => Ps->GCRanks[1] = value; }
+    // B1(api12): PlayerState.GCRanks array added in 7.5 ClientStructs
+    [LuaFunction] public byte GCRankMaelstrom { get => 0; set { } }
+    [LuaFunction] public byte GCRankImmortalFlames { get => 0; set { } }
+    [LuaFunction] public byte GCRankTwinAdders { get => 0; set { } }
 
     [LuaFunction] public uint FishingBait => Ps->FishingBait;
 
     [LuaFunction] public EntityWrapper Entity => new(Player.Object);
     [LuaFunction] public FreeCompanyWrapper FreeCompany => new();
 
-    [LuaFunction] public JobWrapper Job => new(Svc.PlayerState.ClassJob.RowId);
+    [LuaFunction] public JobWrapper Job => new(Svc.ClientState.LocalPlayer?.ClassJob.RowId ?? 0);
     [LuaFunction] public JobWrapper GetJob(uint classJobId) => new(classJobId);
     [LuaFunction][Changelog("12.21")] public GearsetWrapper Gearset => new(RaptureGearsetModule.Instance()->CurrentGearsetIndex);
     [LuaFunction][Changelog("12.21")] public GearsetWrapper GetGearset(int id) => new(id);

@@ -23,16 +23,16 @@ public class BuddyMemberWrapper(Buddy.BuddyMember buddy) : IWrapper
 public unsafe class CompanionInfoWrapper : IWrapper
 {
     [LuaDocs][Changelog("12.22")] public float TimeLeft => UIState.Instance()->Buddy.CompanionInfo.TimeLeft;
-    [LuaDocs][Changelog("12.22")] public byte BardingHead => UIState.Instance()->Buddy.CompanionInfo.BuddyEquipRowIds[0];
-    [LuaDocs][Changelog("12.22")] public byte BardingChest => UIState.Instance()->Buddy.CompanionInfo.BuddyEquipRowIds[1];
-    [LuaDocs][Changelog("12.22")] public byte BardingFeet => UIState.Instance()->Buddy.CompanionInfo.BuddyEquipRowIds[2];
+    [LuaDocs][Changelog("12.22")] public byte BardingHead => 0; // B1(api12): CompanionInfo.BuddyEquipRowIds added in 7.5 ClientStructs
+    [LuaDocs][Changelog("12.22")] public byte BardingChest => 0; // B1(api12)
+    [LuaDocs][Changelog("12.22")] public byte BardingFeet => 0; // B1(api12)
     [LuaDocs][Changelog("12.22")] public uint CurrentXP => UIState.Instance()->Buddy.CompanionInfo.CurrentXP;
     [LuaDocs][Changelog("12.22")] public byte Rank => UIState.Instance()->Buddy.CompanionInfo.Rank;
     [LuaDocs][Changelog("12.22")] public byte Stars => UIState.Instance()->Buddy.CompanionInfo.Stars;
     [LuaDocs][Changelog("12.22")] public byte SkillPoints => UIState.Instance()->Buddy.CompanionInfo.SkillPoints;
-    [LuaDocs][Changelog("12.22")] public byte DefenderLevel => UIState.Instance()->Buddy.CompanionInfo.Levels[0];
-    [LuaDocs][Changelog("12.22")] public byte AttackerLevel => UIState.Instance()->Buddy.CompanionInfo.Levels[1];
-    [LuaDocs][Changelog("12.22")] public byte HealerLevel => UIState.Instance()->Buddy.CompanionInfo.Levels[2];
+    [LuaDocs][Changelog("12.22")] public byte DefenderLevel => 0; // B1(api12): CompanionInfo.Levels added in 7.5 ClientStructs
+    [LuaDocs][Changelog("12.22")] public byte AttackerLevel => 0; // B1(api12)
+    [LuaDocs][Changelog("12.22")] public byte HealerLevel => 0; // B1(api12)
     [LuaDocs][Changelog("12.22")] public byte ActiveCommand => UIState.Instance()->Buddy.CompanionInfo.ActiveCommand;
     [LuaDocs][Changelog("12.22")] public byte FavoriteFeed => UIState.Instance()->Buddy.CompanionInfo.FavoriteFeed;
     [LuaDocs][Changelog("12.22")] public byte CurrentColorStainId => UIState.Instance()->Buddy.CompanionInfo.CurrentColorStainId;

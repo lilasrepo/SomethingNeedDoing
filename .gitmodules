@@ -1,6 +1,0 @@
-[submodule "AutoRetainerAPI"]
-	path = AutoRetainerAPI
-	url = https://github.com/PunishXIV/AutoRetainerAPI.git
-[submodule "DalamudCodeEditor"]
-	path = DalamudCodeEditor
-	url = https://github.com/OhKannaDuh/DalamudCodeEditor.git

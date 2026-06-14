@@ -7,7 +7,7 @@ namespace SomethingNeedDoing.LuaMacro.Wrappers;
 
 public unsafe class AddonWrapper(string name) : IWrapper
 {
-    private AtkUnitBase* Addon => (AtkUnitBase*)Svc.GameGui.GetAddonByName(name).Address;
+    private AtkUnitBase* Addon => (AtkUnitBase*)Svc.GameGui.GetAddonByName(name);
     private Pointer<AtkResNode>[] NodeList => Addon->UldManager.Nodes.ToArray();
     private AtkValue[] AtkValuesList => Addon->AtkValuesSpan.ToArray();
 
@@ -63,6 +63,6 @@ public class AtkValueWrapper(AtkValue value) : IWrapper
 {
     private AtkValue Value = value;
 
-    [LuaDocs] public string ValueString => Value.Type is AtkValueType.String ? Value.String.AsReadOnlySeStringSpan().ToString() : Value.GetValueAsString();
+    [LuaDocs] public string ValueString => Value.Type is FFXIVClientStructs.FFXIV.Component.GUI.ValueType.String ? Value.String.AsReadOnlySeStringSpan().ToString() : Value.GetValueAsString();
 
 }

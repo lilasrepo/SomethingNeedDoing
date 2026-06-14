@@ -1,4 +1,4 @@
-﻿using Dalamud.Bindings.ImGui;
+using ImGuiNET;
 using DalamudCodeEditor.TextEditor;
 
 public readonly struct KeyBinding

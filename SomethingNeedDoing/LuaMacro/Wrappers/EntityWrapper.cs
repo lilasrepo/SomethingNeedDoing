@@ -43,21 +43,13 @@ public unsafe class EntityWrapper : IWrapper
     [LuaDocs] public EntityWrapper? Target => DalamudObj?.TargetObject is { } target ? new(target) : null;
     [LuaDocs] public bool IsCasting => GetCharacterValue(() => Character->IsCasting);
     [LuaDocs] public bool IsTargetable => _obj->GetIsTargetable();
-    [LuaDocs] public bool IsCastInterruptible => GetCharacterValue(() => Character->GetCastInfo()->Interruptible);
+    [LuaDocs] public bool IsCastInterruptible => GetCharacterValue(() => Character->GetCastInfo()->Interruptible) != 0;
     [LuaDocs] public bool IsInCombat => GetCharacterValue(() => Character->InCombat);
     [LuaDocs] public byte HuntRank => FindRow<NotoriousMonster>(x => x.BNpcBase.Value!.RowId == _obj->BaseId)?.Rank ?? 0;
 
     [LuaDocs]
     [Changelog("12.15")]
-    public bool IsMounted
-    {
-        get
-        {
-            if (Type != ObjectKind.Pc) return false;
-            if (Character->ObjectIndex + 1 > Svc.Objects.Length) return false;
-            return Svc.Objects[Character->ObjectIndex + 1] is { ObjectKind: Dalamud.Game.ClientState.Objects.Enums.ObjectKind.Mount };
-        }
-    }
+    public bool IsMounted => false; // B1(api12): ObjectKind.Mount enum value missing in API12 Dalamud
 
     [LuaDocs][Changelog("12.22")] public List<StatusWrapper>? Status => BattleChara != null ? [.. BattleChara->GetStatusManager()->Status.ToArray().Select(x => new StatusWrapper(x))] : null;
     [LuaDocs][Changelog("12.22")] public ushort FateId => GetBattleCharaValue(() => BattleChara->FateId);

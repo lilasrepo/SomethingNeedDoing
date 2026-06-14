@@ -100,7 +100,7 @@ public unsafe class InventoryModule : LuaModuleBase
     public unsafe class InventoryContainerWrapper(InventoryType container) : IWrapper
     {
         private readonly InventoryContainer* _container = InventoryManager.Instance()->GetInventoryContainer(container);
-        [LuaDocs] public int Count => _container->Size;
+        [LuaDocs] public int Count => (int)_container->Size;
 
         [LuaDocs]
         public int FreeSlots
@@ -214,8 +214,8 @@ public unsafe class InventoryModule : LuaModuleBase
             AgentSalvage.Instance()->SalvageItem(Item);
             var retval = new AtkValue();
             Span<AtkValue> param = [
-                new AtkValue { Type = AtkValueType.Int, Int = 0 },
-                new AtkValue { Type = AtkValueType.Bool, Byte = 1 }
+                new AtkValue { Type = FFXIVClientStructs.FFXIV.Component.GUI.ValueType.Int, Int = 0 },
+                new AtkValue { Type = FFXIVClientStructs.FFXIV.Component.GUI.ValueType.Bool, Byte = 1 }
             ];
             AgentSalvage.Instance()->AgentInterface.ReceiveEvent(&retval, param.GetPointer(0), 2, 1);
         }
@@ -225,12 +225,12 @@ public unsafe class InventoryModule : LuaModuleBase
         [Changelog("13.46", ChangelogType.Fixed, "Potential fix for fake movement")]
         [Changelog("13.56", ChangelogType.Fixed, "Support for EquippedItems and RetainerEquippedItems containers")]
         public void MoveItemSlot(InventoryType destinationContainer)
-            => InventoryManager.Instance()->MoveItemSlot(Container, (ushort)Slot, destinationContainer, GetFirstEmptySlot(destinationContainer, ArmouryContainer), true);
+            => InventoryManager.Instance()->MoveItemSlot(Container, (ushort)Slot, destinationContainer, GetFirstEmptySlot(destinationContainer, ArmouryContainer), 1);
 
         [LuaDocs]
         [Changelog("14.12")]
         public void MoveItemSlotToSlot(InventoryType destinationContainer, int destinationSlot)
-            => InventoryManager.Instance()->MoveItemSlot(Container, (ushort)Slot, destinationContainer, (ushort)destinationSlot, true);
+            => InventoryManager.Instance()->MoveItemSlot(Container, (ushort)Slot, destinationContainer, (ushort)destinationSlot, 1);
 
         [LuaDocs]
         [Changelog("13.58")]

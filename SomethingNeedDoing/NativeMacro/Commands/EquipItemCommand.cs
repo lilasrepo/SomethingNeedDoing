@@ -60,9 +60,9 @@ public class EquipItemCommand(string text, uint itemId) : MacroCommandBase(text)
 
         var addonId = AgentModule.Instance()->GetAgentByInternalId(agentId)->GetAddonId();
         var ctx = AgentInventoryContext.Instance();
-        ctx->OpenForItemSlot(pos.Value.inv, pos.Value.slot, 0, addonId);
+        ctx->OpenForItemSlot((uint)pos.Value.inv, pos.Value.slot, 0, addonId);
 
-        var contextMenu = (AtkUnitBase*)Svc.GameGui.GetAddonByName("ContextMenu").Address;
+        var contextMenu = (AtkUnitBase*)Svc.GameGui.GetAddonByName("ContextMenu");
         if (contextMenu != null)
         {
             for (var i = 0; i < contextMenu->AtkValuesCount; i++)

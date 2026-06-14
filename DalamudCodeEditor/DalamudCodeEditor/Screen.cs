@@ -1,5 +1,5 @@
-﻿using System.Numerics;
-using Dalamud.Bindings.ImGui;
+using System.Numerics;
+using ImGuiNET;
 using DalamudCodeEditor.TextEditor;
 
 namespace DalamudCodeEditor;
