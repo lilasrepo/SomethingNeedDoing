@@ -1,0 +1,12 @@
+# Path-level walk-back pins for SomethingNeedDoing — see plugin_update SKILL.md.
+# Pinned 2026-06-24 (Layer 3 / frozen-version guard): SomethingNeedDoing.csproj carries the TC-managed
+# <Version>15.2.0.0</Version> (ships "15.2"; DalamudPackager.targets VersionComponents="2"). Upstream's
+# <Version> is a perpetual 0.0.0.0 placeholder (the real version lives only in the upstream git tag via
+# CI), so csproj take-theirs would RESET the TC version to 0.0.0.0 on any refresh whose range touches the
+# csproj — silently corrupting the published AssemblyVersion (manifest -> "0.0"). Pin the whole csproj
+# take-ours so the TC version sticks across refreshes; the Layer-2 auto-bump increments it (15.2 -> 15.3)
+# whenever a refresh changes shipped content but the version would otherwise stay equal to the published
+# tag. Trade-off: upstream csproj *structural* changes (new PackageReference/target) no longer auto-flow —
+# they surface as a loud build failure on the next refresh (fail-loud > the prior silent version reset),
+# and the operator merges them by hand. See FORWARD_PORT_REFERENCE.md + memory project_lilasrepo_version_pins.
+SomethingNeedDoing/SomethingNeedDoing.csproj
