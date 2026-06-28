@@ -10,3 +10,5 @@
 # they surface as a loud build failure on the next refresh (fail-loud > the prior silent version reset),
 # and the operator merges them by hand. See FORWARD_PORT_REFERENCE.md + memory project_lilasrepo_version_pins.
 SomethingNeedDoing/SomethingNeedDoing.csproj
+# Auto-promoted by plugin_update on 2026-06-28
+SomethingNeedDoing/SomethingNeedDoing.json

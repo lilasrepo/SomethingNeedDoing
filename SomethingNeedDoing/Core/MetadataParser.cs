@@ -224,6 +224,7 @@ public class MetadataParser(DependencyFactory dependencyFactory)
                 kvp =>
                 {
                     var isSimpleConfig = string.IsNullOrEmpty(kvp.Value.Description) &&
+                                        string.IsNullOrEmpty(kvp.Value.Section) &&
                                         kvp.Value.MinValue == null &&
                                         kvp.Value.MaxValue == null &&
                                         string.IsNullOrEmpty(kvp.Value.ValidationPattern) &&
@@ -241,6 +242,9 @@ public class MetadataParser(DependencyFactory dependencyFactory)
 
                     if (!string.IsNullOrEmpty(kvp.Value.Description))
                         configDict["description"] = kvp.Value.Description;
+
+                    if (!string.IsNullOrEmpty(kvp.Value.Section))
+                        configDict["section"] = kvp.Value.Section;
 
                     if (kvp.Value.Type != typeof(string))
                         configDict["type"] = kvp.Value.TypeName;
@@ -347,6 +351,9 @@ public class MetadataParser(DependencyFactory dependencyFactory)
 
                 if (configData.TryGetValue("description", out var description))
                     configItem.Description = description?.ToString() ?? string.Empty;
+
+                if (configData.TryGetValue("section", out var section))
+                    configItem.Section = section?.ToString() ?? string.Empty;
 
                 if (configData.TryGetValue("type", out var type))
                     configItem.TypeName = type?.ToString() ?? "string";
