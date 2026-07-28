@@ -1,4 +1,4 @@
-global using ImGuiNET;
+global using Dalamud.Bindings.ImGui;
 global using Dalamud.Game.ClientState.Conditions;
 global using ECommons.DalamudServices;
 global using ECommons.GameFunctions;

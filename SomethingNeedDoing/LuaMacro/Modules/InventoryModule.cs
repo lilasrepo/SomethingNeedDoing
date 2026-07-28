@@ -225,12 +225,12 @@ public unsafe class InventoryModule : LuaModuleBase
         [Changelog("13.46", ChangelogType.Fixed, "Potential fix for fake movement")]
         [Changelog("13.56", ChangelogType.Fixed, "Support for EquippedItems and RetainerEquippedItems containers")]
         public void MoveItemSlot(InventoryType destinationContainer)
-            => InventoryManager.Instance()->MoveItemSlot(Container, (ushort)Slot, destinationContainer, GetFirstEmptySlot(destinationContainer, ArmouryContainer), 1);
+            => InventoryManager.Instance()->MoveItemSlot(Container, (ushort)Slot, destinationContainer, GetFirstEmptySlot(destinationContainer, ArmouryContainer), true);
 
         [LuaDocs]
         [Changelog("14.12")]
         public void MoveItemSlotToSlot(InventoryType destinationContainer, int destinationSlot)
-            => InventoryManager.Instance()->MoveItemSlot(Container, (ushort)Slot, destinationContainer, (ushort)destinationSlot, 1);
+            => InventoryManager.Instance()->MoveItemSlot(Container, (ushort)Slot, destinationContainer, (ushort)destinationSlot, true);
 
         [LuaDocs]
         [Changelog("13.58")]
