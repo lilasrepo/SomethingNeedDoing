@@ -9,7 +9,7 @@
   </PropertyGroup>
 
 	<PropertyGroup>
-		<Version>15.5</Version>
+		<Version>15.6</Version>
 		<LangVersion>preview</LangVersion>
 
 		<Author>croizat</Author>
