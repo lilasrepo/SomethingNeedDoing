@@ -1,11 +1,11 @@
-# Something Need Doing（繁中移植版 · TC12） / Traditional-Chinese Port
+# Something Need Doing（繁中移植版 · TC13） / Traditional-Chinese Port
 
 > Work work.（埋頭苦幹。）<br>
 > Work work.
 
-**繁體中文**：這是 **[Something Need Doing](https://github.com/Jaksuhn/SomethingNeedDoing)** 的繁體中文客戶端移植版，對應 **FFXIV 7.1 / yanmucorp Dalamud API12（.NET 9）**。本專案僅做相容性移植，**非官方、非原作維護**；所有原始功能與設計著作權歸原作者 **daemitus、croizat**。
+**繁體中文**：這是 **[Something Need Doing](https://github.com/Jaksuhn/SomethingNeedDoing)** 的繁體中文客戶端移植版，對應 **FFXIV 7.20 / yanmucorp Dalamud API13（.NET 9）**。本專案僅做相容性移植，**非官方、非原作維護**；所有原始功能與設計著作權歸原作者 **daemitus、croizat**。
 
-**English**: A Traditional-Chinese-client port of **[Something Need Doing](https://github.com/Jaksuhn/SomethingNeedDoing)** targeting **FFXIV 7.1 / yanmucorp Dalamud API12 (.NET 9)**. Compatibility port only — **unofficial and not maintained by the original author**. All original work © **daemitus, croizat**.
+**English**: A Traditional-Chinese-client port of **[Something Need Doing](https://github.com/Jaksuhn/SomethingNeedDoing)** targeting **FFXIV 7.20 / yanmucorp Dalamud API13 (.NET 9)**. Compatibility port only — **unofficial and not maintained by the original author**. All original work © **daemitus, croizat**.
 
 ---
 
@@ -24,7 +24,7 @@ Store unlimited macros and write Lua scripts to automate the game — now for fa
    ```
    https://raw.githubusercontent.com/lilasrepo/DalamudPlugins/main/pluginmaster.json
    ```
-4. 輸入 `/xlplugins`，搜尋 **Something Need Doing (TC12)** → 安裝 → 啟用。
+4. 輸入 `/xlplugins`，搜尋 **Something Need Doing (TC13)** → 安裝 → 啟用。
 
 **English**
 1. Launch the Traditional-Chinese client with **XIVTCLauncher**.
@@ -33,14 +33,14 @@ Store unlimited macros and write Lua scripts to automate the game — now for fa
    ```
    https://raw.githubusercontent.com/lilasrepo/DalamudPlugins/main/pluginmaster.json
    ```
-4. Type `/xlplugins`, search **Something Need Doing (TC12)** → Install → Enable.
+4. Type `/xlplugins`, search **Something Need Doing (TC13)** → Install → Enable.
 
 ## 對應版本 / Compatibility
 
 | 項目 / Item | 版本 / Version |
 |---|---|
-| 遊戲 / Game | FFXIV 7.1（繁中客戶端 / TC client） |
-| Dalamud | yanmucorp API12（.NET 9） |
+| 遊戲 / Game | FFXIV 7.20（繁中客戶端 / TC client） |
+| Dalamud | yanmucorp API13（.NET 9） |
 | 移植自上游 / Ported from upstream | v15.2 |
 
 ## 原作與授權 / Credits & License
