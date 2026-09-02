@@ -101,9 +101,10 @@ public unsafe class InstancesModule : LuaModuleBase
     {
         [LuaDocs]
         [Changelog("12.8")]
-        public bool IsFlagMarkerSet => false; // B1(api12): AgentMap.FlagMarkerCount added in 7.5
+        // porting-note(api13): restored 2026-09-02 — AgentMap.FlagMarkerCount / FlagMapMarkers exist in CS 6966
+        public bool IsFlagMarkerSet => AgentMap.Instance()->FlagMarkerCount > 0;
 
-        [LuaDocs][Changelog("12.8")] public FlagWrapper Flag => new(default); // B1(api12): AgentMap.FlagMapMarkers added in 7.5
+        [LuaDocs][Changelog("12.8")] public FlagWrapper Flag => new(AgentMap.Instance()->FlagMapMarkers[0]);
     }
 
     public class FlagWrapper(FlagMapMarker data) : IWrapper
