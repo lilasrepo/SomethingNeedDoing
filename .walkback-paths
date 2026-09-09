@@ -10,3 +10,13 @@
 # they surface as a loud build failure on the next refresh (fail-loud > the prior silent version reset),
 # and the operator merges them by hand. See FORWARD_PORT_REFERENCE.md + memory project_lilasrepo_version_pins.
 SomethingNeedDoing/SomethingNeedDoing.csproj
+
+# Pinned 2026-09-07: Plugin.cs is a TC-owned bootstrap. Upstream 6122cec2 moved the entry point
+# to IAsyncDalamudPlugin (LoadAsync + DisposeAsync), which is API15-only -- api13's IDalamudPlugin
+# is plain IDisposable (Cecil-verified) -- so the TC file is a hand-written synchronous plugin:
+# explicit constructor instead of AutoCtor's generated one, host started inline, sync Dispose.
+# Upstream's generic Host and the Injectio-generated AddSomethingNeedDoing() registration are kept
+# verbatim; only the lifecycle shell differs. Same arrangement as Questionable's
+# QuestionablePlugin.cs, and the same accepted cost: upstream additions to the ConfigureServices
+# block do not arrive on their own and must be diffed in by hand on every refresh.
+SomethingNeedDoing/Plugin.cs

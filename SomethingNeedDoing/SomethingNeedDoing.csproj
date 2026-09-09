@@ -9,8 +9,11 @@
   </PropertyGroup>
 
 	<PropertyGroup>
-		<Version>15.8</Version>
+		<Version>15.9</Version>
 		<LangVersion>preview</LangVersion>
+		<!-- porting-note(api13): AutoCtor ships with ExcludeAssets="compile", so its attributes
+		     must be embedded into this assembly rather than referenced. -->
+		<DefineConstants>$(DefineConstants);AUTOCTOR_EMBED_ATTRIBUTES</DefineConstants>
 
 		<Author>croizat</Author>
 		<Name>SomethingNeedDoing</Name>
@@ -36,7 +39,16 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\ECommons\ECommons\ECommons.csproj" />
+		<!-- porting-note(api13): upstream 6122cec2 replaced the hand-written registration
+		     (Utils/ServiceCollectionExtensions.cs, deleted) + Scrutor assembly scanning with the
+		     Injectio and AutoCtor source generators and moved the plugin onto a generic Host.
+		     Both generators target netstandard2.0, so they run under the SDK-10 compiler this tree
+		     already uses; the runtime M.E.* packages stay at 9.0.x to remain net9-native (upstream
+		     is on 10.0.11 only because it targets net10). -->
+		<PackageReference Include="AutoCtor" Version="3.1.0" PrivateAssets="all" ExcludeAssets="compile;runtime" />
+		<PackageReference Include="Injectio" Version="6.2.0" PrivateAssets="all" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.8" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.8" />
 		<PackageReference Include="NLua" Version="1.7.5" />
 		<PackageReference Include="Scrutor" Version="6.1.0" />
 		<PackageReference Include="YamlDotNet" Version="16.3.0" />
