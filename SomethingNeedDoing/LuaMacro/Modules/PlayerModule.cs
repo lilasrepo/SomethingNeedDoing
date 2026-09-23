@@ -15,10 +15,10 @@ public unsafe class PlayerModule : LuaModuleBase
     private PlayerState* Ps => Instance();
 
     [LuaFunction] public byte GrandCompany => Ps->GrandCompany;
-    // B1(api12): PlayerState.GCRanks array added in 7.5 ClientStructs
-    [LuaFunction] public byte GCRankMaelstrom { get => 0; set { } }
-    [LuaFunction] public byte GCRankImmortalFlames { get => 0; set { } }
-    [LuaFunction] public byte GCRankTwinAdders { get => 0; set { } }
+    // porting-note(api13): FFXIVClientStructs 6966 has three fields; 7.5 folded them into GCRanks[].
+    [LuaFunction] public byte GCRankMaelstrom { get => Ps->GCRankMaelstrom; set => Ps->GCRankMaelstrom = value; }
+    [LuaFunction] public byte GCRankImmortalFlames { get => Ps->GCRankImmortalFlames; set => Ps->GCRankImmortalFlames = value; }
+    [LuaFunction] public byte GCRankTwinAdders { get => Ps->GCRankTwinAdders; set => Ps->GCRankTwinAdders = value; }
 
     [LuaFunction] public uint FishingBait => Ps->FishingBait;
 

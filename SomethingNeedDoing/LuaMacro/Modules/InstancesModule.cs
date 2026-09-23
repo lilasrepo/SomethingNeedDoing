@@ -24,13 +24,14 @@ public unsafe class InstancesModule : LuaModuleBase
         [Changelog("12.69")]
         public void QueueDuty(uint contentsFinderCondition)
         {
-            if (!FindRows<Sheets.ContentFinderCondition>(x => x.Unknown47).Select(x => x.RowId).Contains(contentsFinderCondition)) // B1(api12): IsInDutyFinder Lumina column added in 7.5
+            if (!FindRows<Sheets.ContentFinderCondition>(x => x.Unknown47).Select(x => x.RowId).Contains(contentsFinderCondition)) // B1(api13): IsInDutyFinder is not a column in api13 Lumina (game 7.5 sheet)
             {
                 FrameworkLogger.Error($"Invalid cfcID: {contentsFinderCondition}");
                 return;
             }
             var QueueInfo = ContentsFinder.Instance()->GetQueueInfo();
-            // B1(api12): ContentsFinderQueueState enum added in 7.5 ClientStructs — cannot pre-cancel queue here
+            // porting-note(api13): FFXIVClientStructs 6966 nests the enum as ContentsFinderQueueInfo.QueueStates (7.5 hoisted it).
+            if (QueueInfo->QueueState is ContentsFinderQueueInfo.QueueStates.Pending or ContentsFinderQueueInfo.QueueStates.Queued) QueueInfo->CancelQueue();
             QueueInfo->QueueDuties(&contentsFinderCondition, 1);
         }
 
@@ -44,7 +45,7 @@ public unsafe class InstancesModule : LuaModuleBase
                 return;
             }
             var QueueInfo = ContentsFinder.Instance()->GetQueueInfo();
-            // B1(api12): ContentsFinderQueueState enum added in 7.5 ClientStructs
+            if (QueueInfo->QueueState is ContentsFinderQueueInfo.QueueStates.Pending or ContentsFinderQueueInfo.QueueStates.Queued) QueueInfo->CancelQueue();
             QueueInfo->QueueRoulette(contentRouletteId);
         }
 
@@ -58,7 +59,7 @@ public unsafe class InstancesModule : LuaModuleBase
         [LuaDocs] public bool IsSilenceEcho { get => ContentsFinder.Instance()->IsSilenceEcho; set => ContentsFinder.Instance()->IsSilenceEcho = value; }
         [LuaDocs] public bool IsExplorerMode { get => ContentsFinder.Instance()->IsExplorerMode; set => ContentsFinder.Instance()->IsExplorerMode = value; }
         [LuaDocs] public bool IsLimitedLevelingRoulette { get => ContentsFinder.Instance()->IsLimitedLevelingRoulette; set => ContentsFinder.Instance()->IsLimitedLevelingRoulette = value; }
-        [LuaDocs] public int QueueState => 0; // B1(api12): ContentsFinderQueueState enum + GetQueueInfo()->QueueState added in game 7.5 ClientStructs
+        [LuaDocs] public ContentsFinderQueueInfo.QueueStates QueueState => ContentsFinder.Instance()->GetQueueInfo()->QueueState; // porting-note(api13): CS 6966 enum name
     }
 
     [LuaFunction] public FriendsListWrapper FriendsList => new();

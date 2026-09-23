@@ -50,7 +50,16 @@ public unsafe class EntityWrapper : IWrapper
 
     [LuaDocs]
     [Changelog("12.15")]
-    public bool IsMounted => false; // B1(api12): ObjectKind.Mount enum value missing in API12 Dalamud
+    public bool IsMounted
+    {
+        get
+        {
+            // porting-note(api13): Dalamud api13 names the mount object kind MountType (API15: Mount).
+            if (Type != ObjectKind.Pc) return false;
+            if (Character->ObjectIndex + 1 > Svc.Objects.Length) return false;
+            return Svc.Objects[Character->ObjectIndex + 1] is { ObjectKind: Dalamud.Game.ClientState.Objects.Enums.ObjectKind.MountType };
+        }
+    }
 
     [LuaDocs][Changelog("12.22")] public List<StatusWrapper>? Status => BattleChara != null ? [.. BattleChara->GetStatusManager()->Status.ToArray().Select(x => new StatusWrapper(x))] : null;
     [LuaDocs][Changelog("12.22")] public ushort FateId => GetBattleCharaValue(() => BattleChara->FateId);

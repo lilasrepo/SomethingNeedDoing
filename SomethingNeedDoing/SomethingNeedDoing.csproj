@@ -9,7 +9,7 @@
   </PropertyGroup>
 
 	<PropertyGroup>
-		<Version>15.9</Version>
+		<Version>15.700</Version>
 		<LangVersion>preview</LangVersion>
 		<!-- porting-note(api13): AutoCtor ships with ExcludeAssets="compile", so its attributes
 		     must be embedded into this assembly rather than referenced. -->
